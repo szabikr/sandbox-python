@@ -65,10 +65,10 @@ def game(board, turn):
     while True:
       print('Turn for ' + turn + '. Move on which space?')
       move = input()
-      if board[move] == ' ':
+      if move in board.keys() and board[move] == ' ':
         board[move] = turn
         break
-      print('That tile is occupied')      
+      print('Incorrect move')      
 
     if turn == 'X':
       turn = 'O'
