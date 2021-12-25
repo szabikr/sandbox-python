@@ -81,6 +81,9 @@ printWelcome()
 
 print('pick you symbol (X or O):')
 turn = input()
+while turn != 'X' and turn != 'O':
+  print('pick X or O')
+  turn = input()
 
 printDefinition()
 game(theBoard, turn)
