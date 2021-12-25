@@ -46,9 +46,13 @@ def printResults(board):
     print('Winner: ' + result)
 
 def pickSymbol():
-  print('pick you symbol (X or O):')
+  print('Pick your symbol (X or O):')
   turn = input()
   while turn != 'X' and turn != 'O':
+    if turn == 'x':
+      return 'X'
+    if turn == 'o':
+      return 'O'
     print('pick X or O')
     turn = input()
   return turn
@@ -110,7 +114,7 @@ def game(board, turn):
     print('')
     
     while True:
-      print('Turn for ' + turn + '. Move on which space?')
+      print('Turn for ' + turn + '. Pick a square')
       move = input()
       if move in board.keys() and board[move] == ' ':
         board[move] = turn
