@@ -34,15 +34,62 @@ def printBoard(board):
   print(' ---+---+---')
   print('  ' + board['low-L'] + ' | ' + board['low-M'] + ' | ' + board['low-R'] + ' ')
 
-# TODO: valuate board. Is it a win for X or 0? Is it a draw?
-def valuateBoard(board):
-  print('valuateBoard() not yet implemented')
+def printResults(board):
+  print('')
+  print('')
+  print('The Results are in')
+  print('==================')
+  result = valuateBoard(board)
+  if result == True:
+    print('Draw')
+  else:
+    print('Winner: ' + result)
+
+def pickSymbol():
+  print('pick you symbol (X or O):')
+  turn = input()
+  while turn != 'X' and turn != 'O':
+    print('pick X or O')
+    turn = input()
+  return turn
 
 def isBoardFull(board):
   for v in board.values():
     if v == ' ':
       return False
   return True
+
+def valuateBoard(board):
+
+  # Check horrizontally
+  if board['top-L'] != ' ' and board['top-L'] == board['top-M'] and board['top-M'] == board['top-R']: 
+    return board['top-L']
+  
+  if board['mid-L'] != ' ' and board['mid-L'] == board['mid-M'] and board['mid-M'] == board['mid-R']: 
+    return board['mid-L']
+
+  if board['low-L'] != ' ' and board['low-L'] == board['low-M'] and board['low-M'] == board['low-R']: 
+    return board['low-L']
+
+  # Check vertically
+  if board['top-L'] != ' ' and board['top-L'] == board['mid-L'] and board['mid-L'] == board['low-L']:
+    return board['top-L']
+  
+  if board['top-M'] != ' ' and board['top-M'] == board['mid-M'] and board['mid-M'] == board['low-M']:
+    return board['top-M']
+  
+  if board['top-R'] != ' ' and board['top-R'] == board['mid-R'] and board['mid-R'] == board['low-R']:
+    return board['top-R']
+
+  # Check crosses
+  if board['top-L'] != ' ' and board['top-L'] == board['mid-M'] and board['mid-M'] == board['low-R']:
+    return board['top-L']
+  
+  if board['top-R'] != ' ' and board['top-R'] == board['mid-M'] and board['mid-M'] == board['low-L']:
+    return board['top-R']
+
+  return isBoardFull(board)
+
 
 def registerMove(board, move, turn):
   if move == 'top-M' or move == 'mid-M' or move == 'low-M':
@@ -58,7 +105,7 @@ def registerMove(board, move, turn):
     return
 
 def game(board, turn):
-  while isBoardFull(board) == False:
+  while valuateBoard(board) == False:
     printBoard(board)
     print('')
     
@@ -78,12 +125,7 @@ def game(board, turn):
   printBoard(board)
 
 printWelcome()
-
-print('pick you symbol (X or O):')
-turn = input()
-while turn != 'X' and turn != 'O':
-  print('pick X or O')
-  turn = input()
-
+turn = pickSymbol()
 printDefinition()
 game(theBoard, turn)
+printResults(theBoard)
