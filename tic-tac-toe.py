@@ -1,3 +1,5 @@
+import random
+
 theBoard = {
   'top-L': ' ', 'top-M': ' ', 'top-R': ' ',
   'mid-L': ' ', 'mid-M': ' ', 'mid-R': ' ',
@@ -34,7 +36,7 @@ def printBoard(board):
   print(' ---+---+---')
   print('  ' + board['low-L'] + ' | ' + board['low-M'] + ' | ' + board['low-R'] + ' ')
 
-def printResults(board):
+def printResults(board, player):
   print('')
   print('')
   print('The Results are in')
@@ -43,7 +45,7 @@ def printResults(board):
   if result == True:
     print('Draw')
   else:
-    print('Winner: ' + result)
+    print('Winner: ' + ('player' if result == player else 'ai'))
 
 def pickSymbol():
   print('Pick your symbol (X or O):')
@@ -57,6 +59,11 @@ def pickSymbol():
     turn = input()
   return turn
 
+def getAiSymbol(player):
+  if player == 'X':
+    return 'O'
+  return 'X'
+
 def isBoardFull(board):
   for v in board.values():
     if v == ' ':
@@ -64,7 +71,6 @@ def isBoardFull(board):
   return True
 
 def valuateBoard(board):
-
   # Check horrizontally
   if board['top-L'] != ' ' and board['top-L'] == board['top-M'] and board['top-M'] == board['top-R']: 
     return board['top-L']
@@ -108,28 +114,40 @@ def registerMove(board, move, turn):
     board[move] = ' ' + turn
     return
 
-def game(board, turn):
+def getAiMove(board):
+  if board['mid-M'] == ' ':
+    return 'mid-M'
+
+  return random.choice(list(board.keys()))
+
+def game(board, player, ai):
+  turn = 'X'
   while valuateBoard(board) == False:
     printBoard(board)
     print('')
     
     while True:
-      print('Turn for ' + turn + '. Pick a square')
-      move = input()
+      print('Turn for ' + ('player(' + turn + ')' if turn == player else 'ai(' + turn + ')') + '. Pick a square')
+      if turn == player:
+        move = input()
+      else:
+        move = getAiMove(board)
+
       if move in board.keys() and board[move] == ' ':
         board[move] = turn
         break
-      print('Incorrect move')      
+      print('Incorrect move')
 
-    if turn == 'X':
-      turn = 'O'
+    if turn == player:
+      turn = ai
     else:
-      turn = 'X'
+      turn = player
 
   printBoard(board)
 
 printWelcome()
-turn = pickSymbol()
+player = pickSymbol()
+ai = getAiSymbol(player)
 printDefinition()
-game(theBoard, turn)
-printResults(theBoard)
+game(theBoard, player, ai)
+printResults(theBoard, player)
