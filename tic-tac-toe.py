@@ -145,19 +145,25 @@ def checkTilesForClosing(aiTiles, playerTiles, board):
 
 def checkCrosses(board, ai): 
   if board['top-L'] == ai and board['mid-M'] == ai:
-    return 'low-R' if board['low-R'] == ' ' else ''
+    if board['low-R'] == ' ':
+      return 'low-R'
   if board['top-L'] == ai and board['low-R'] == ai:
-    return 'mid-M' if board['mid-M'] == ' ' else ''
+    if board['mid-M'] == ' ':
+      return 'mid-M'
   if board['mid-M'] == ai and board['low-R'] == ai:
-    return 'top-L' if board['top-L'] == ' ' else ''
-
+    if board['top-L'] == ' ':
+      return 'top-L'
+      
   if board['top-R'] == ai and board['mid-M'] == ai:
-    return 'low-L' if board['low-L'] == ' ' else ''
+    if board['low-L'] == ' ':
+      return 'low-L'
   if board['top-R'] == ai and board['low-L'] == ai:
-    return 'mid-M' if board['mid-M'] == ' ' else ''
+    if board['mid-M'] == ' ':
+      return 'mid-M'
   if board['mid-M'] == ai and board['low-L'] == ai:
-    return 'top-R' if board['top-R'] == ' ' else ''
-  
+    if board['top-R'] == ' ':
+      return 'top-R'
+
   return ''
 
 def getAiMove(board, ai):
@@ -211,11 +217,7 @@ def game(board, player, ai):
     while True:
       print('Turn for ' + ('player(' + turn + ')' if turn == player else 'ai(' + turn + ')') + '. Pick a square')
       if turn == player:
-        # move = input()
-        move = getAiMove(board, player)
-
-        # while player move is also ai
-        print(move)
+        move = input()
       else:
         move = getAiMove(board, ai)
         print(move)
@@ -229,9 +231,6 @@ def game(board, player, ai):
       turn = ai
     else:
       turn = player
-    
-    # while player move is also ai
-    input()
 
   printBoard(board)
 
