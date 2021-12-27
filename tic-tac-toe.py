@@ -100,7 +100,6 @@ def valuateBoard(board):
 
   return isBoardFull(board)
 
-
 def registerMove(board, move, turn):
   if move == 'top-M' or move == 'mid-M' or move == 'low-M':
     board[move] = ' ' + turn + ' '
@@ -114,9 +113,69 @@ def registerMove(board, move, turn):
     board[move] = ' ' + turn
     return
 
-def getAiMove(board):
+def checkTilesForClosing(ai, aiTiles, playerTiles):
+  print(ai + ' tiles')
+  aiTileCounts = []
+  for i in set(aiTiles):
+    count = 0
+    for j in aiTiles:
+      if i == j:
+        count += 1
+    aiTileCounts.append({ 'tile': i, 'count': count })
+
+  for tile in aiTileCounts:
+    if tile['count'] == 2 and tile['tile'] not in playerTiles:
+      print('good position to step somewher: ' + tile['tile'])
+      if tile['tile'] in ['top', 'mid', 'low']:
+        nextStep = ''
+        if 'L' not in aiTiles:
+          nextStep = tile['tile'] + '-' + 'L'
+        if 'M' not in aiTiles:
+          nextStep = tile['tile'] + '-' + 'M'
+        if 'R' not in aiTiles:
+          nextStep = tile['tile'] + '-' + 'R'
+      
+      if tile['tile'] in ['L', 'M', 'R']:
+        if 'top' not in aiTiles:
+          nextStep = 'top' + '-' + tile['tile']
+        if 'mid' not in aiTiles:
+          nextStep = 'mid' + '-' + tile['tile']
+        if 'low' not in aiTiles:
+          nextStep = 'low' + '-' + tile['tile']
+
+      print('Next step should be: ' + nextStep)
+      return nextStep
+
+    print(tile)
+  
+  return ''
+
+def getAiMove(board, ai):
   if board['mid-M'] == ' ':
     return 'mid-M'
+  
+  aiTiles = []
+  playerTiles = []
+  for tile in board.keys():
+    if board[tile] == ' ':
+      continue
+    
+    if board[tile] == ai:
+      aiTiles += tile.split('-')
+    else:
+      playerTiles += tile.split('-')
+
+  print('')
+  print('attack')
+  nextStep = checkTilesForClosing(ai, aiTiles, playerTiles)
+  if nextStep != '':
+    return nextStep
+  
+  print('')
+  print('defence')
+  nextStep = checkTilesForClosing('X' if ai == 'O' else 'O', playerTiles, aiTiles)
+  if nextStep != '':
+    return nextStep
 
   return random.choice(list(board.keys()))
 
@@ -129,9 +188,14 @@ def game(board, player, ai):
     while True:
       print('Turn for ' + ('player(' + turn + ')' if turn == player else 'ai(' + turn + ')') + '. Pick a square')
       if turn == player:
-        move = input()
+        # move = input()
+        move = getAiMove(board, player)
+
+        # while player move is also ai
+        print(move)
       else:
-        move = getAiMove(board)
+        move = getAiMove(board, ai)
+        print(move)
 
       if move in board.keys() and board[move] == ' ':
         board[move] = turn
@@ -142,6 +206,9 @@ def game(board, player, ai):
       turn = ai
     else:
       turn = player
+    
+    # while player move is also ai
+    input()
 
   printBoard(board)
 
