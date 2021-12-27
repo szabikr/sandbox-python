@@ -113,8 +113,8 @@ def registerMove(board, move, turn):
     board[move] = ' ' + turn
     return
 
-def checkTilesForClosing(ai, aiTiles, playerTiles):
-  print(ai + ' tiles')
+# checks tiles vertically and horizontally for closing
+def checkTilesForClosing(aiTiles, playerTiles, board):
   aiTileCounts = []
   for i in set(aiTiles):
     count = 0
@@ -125,35 +125,42 @@ def checkTilesForClosing(ai, aiTiles, playerTiles):
 
   for tile in aiTileCounts:
     if tile['count'] == 2 and tile['tile'] not in playerTiles:
-      print('good position to step somewher: ' + tile['tile'])
       if tile['tile'] in ['top', 'mid', 'low']:
-        nextStep = ''
-        if 'L' not in aiTiles:
-          nextStep = tile['tile'] + '-' + 'L'
-        if 'M' not in aiTiles:
-          nextStep = tile['tile'] + '-' + 'M'
-        if 'R' not in aiTiles:
-          nextStep = tile['tile'] + '-' + 'R'
+        if board[tile['tile'] + '-' + 'L'] == ' ':
+          return tile['tile'] + '-' + 'L'
+        if board[tile['tile'] + '-' + 'M'] == ' ':
+          return tile['tile'] + '-' + 'M'
+        if board[tile['tile'] + '-' + 'R'] == ' ':
+          return tile['tile'] + '-' + 'R'
       
       if tile['tile'] in ['L', 'M', 'R']:
-        if 'top' not in aiTiles:
-          nextStep = 'top' + '-' + tile['tile']
-        if 'mid' not in aiTiles:
-          nextStep = 'mid' + '-' + tile['tile']
-        if 'low' not in aiTiles:
-          nextStep = 'low' + '-' + tile['tile']
+        if board['top' + '-' + tile['tile']] == ' ':
+          return 'top' + '-' + tile['tile']
+        if board['mid' + '-' + tile['tile']] == ' ':
+          return 'mid' + '-' + tile['tile']
+        if board['low' + '-' + tile['tile']] == ' ':
+          return 'low' + '-' + tile['tile']
+  
+  return ''
 
-      print('Next step should be: ' + nextStep)
-      return nextStep
+def checkCrosses(board, ai): 
+  if board['top-L'] == ai and board['mid-M'] == ai:
+    return 'low-R' if board['low-R'] == ' ' else ''
+  if board['top-L'] == ai and board['low-R'] == ai:
+    return 'mid-M' if board['mid-M'] == ' ' else ''
+  if board['mid-M'] == ai and board['low-R'] == ai:
+    return 'top-L' if board['top-L'] == ' ' else ''
 
-    print(tile)
+  if board['top-R'] == ai and board['mid-M'] == ai:
+    return 'low-L' if board['low-L'] == ' ' else ''
+  if board['top-R'] == ai and board['low-L'] == ai:
+    return 'mid-M' if board['mid-M'] == ' ' else ''
+  if board['mid-M'] == ai and board['low-L'] == ai:
+    return 'top-R' if board['top-R'] == ' ' else ''
   
   return ''
 
 def getAiMove(board, ai):
-  if board['mid-M'] == ' ':
-    return 'mid-M'
-  
   aiTiles = []
   playerTiles = []
   for tile in board.keys():
@@ -165,19 +172,35 @@ def getAiMove(board, ai):
     else:
       playerTiles += tile.split('-')
 
-  print('')
-  print('attack')
-  nextStep = checkTilesForClosing(ai, aiTiles, playerTiles)
+  nextStep = checkTilesForClosing(aiTiles, playerTiles, board)
   if nextStep != '':
+    print('')
+    print('horrizontal & vertical offence')
     return nextStep
   
-  print('')
-  print('defence')
-  nextStep = checkTilesForClosing('X' if ai == 'O' else 'O', playerTiles, aiTiles)
+  nextStep = checkTilesForClosing(playerTiles, aiTiles, board)
   if nextStep != '':
+    print('')
+    print('horrizontal & vertical defence')
     return nextStep
 
-  return random.choice(list(board.keys()))
+  nextStep = checkCrosses(board, ai)
+  if nextStep != '':
+    print('')
+    print('cross offence')
+    return nextStep
+
+  nextStep = checkCrosses(board, 'X' if ai == 'O' else 'O')
+  if nextStep != '':
+    print('')
+    print('cross defence')
+    return nextStep
+
+  nextStep = 'mid-M'
+  while board[nextStep] != ' ':
+    nextStep = random.choice(list(board.keys()))
+  
+  return nextStep
 
 def game(board, player, ai):
   turn = 'X'
