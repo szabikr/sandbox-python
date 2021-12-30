@@ -1,6 +1,5 @@
 import random
 
-# required streak length
 REQUIRED_STREAK_LENGTH = 6
 
 test1 = ['tails', 'tails', 'tails', 'tails', 'tails', 'tails'] # should be 1
