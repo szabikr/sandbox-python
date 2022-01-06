@@ -10,6 +10,8 @@
 2. Activate virtual environment: `$ source env/bin/activate`
 3. Install required dependencies: `$ pip3 install -r requirements.txt`
 
+> **NOTE:** Use the `$ deactivate` command to exit the virtual environment.
+
 ### Credit
 
 - Automate the boring stuff
