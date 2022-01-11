@@ -10,7 +10,19 @@
 
 - Write `Dockerfile`
 - Build `python-imbd` docker Image `docker build -t python-imdb .`
+
+_without interactive mode_
 - Run docker Container `docker run python-imdb`
+
+_with interactive mode_
+- Run docker Container `docker run -t -i python-imdb` where `-t` is for terminal and `-i` for interactive mode
+
+### Fast API
+
+- Install dependencies `pip3 install fastapi uvcorn`
+- Create `server.py` file
+- Run `uvicorn server:app --reload` which opens a server running the api on `localhost:8000`
+
 
 ### Credit
 
