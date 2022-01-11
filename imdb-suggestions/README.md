@@ -17,6 +17,11 @@ _without interactive mode_
 _with interactive mode_
 - Run docker Container `$ docker run -t -i python-imdb` where `-t` is for terminal and `-i` for interactive mode
 
+- Run fastapi docker Container and forward port 8000 to 8000: `$ docker run -p 8000:8000 python-fastapi`
+
+- Access docker Container files: `docker exec -it {container-id} /bin/sh`
+
+
 ### Fast API
 
 - Install dependencies `$ pip3 install fastapi uvcorn`
