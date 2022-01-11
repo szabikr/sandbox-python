@@ -25,8 +25,8 @@ _with interactive mode_
 ### Fast API
 
 - Install dependencies `$ pip3 install fastapi uvcorn`
-- Create `app/server.py` file
-- Run api server via `$ python3 app/server.py`
+- Create `server.py` file
+- Run api server via `$ python3 server.py`
 
 
 ### Credit
