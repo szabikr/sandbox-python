@@ -9,7 +9,8 @@
 ### Dockerizing
 
 - Write `Dockerfile`
-- Build `python-imbd` docker Image `docker build -t 
+- Build `python-imbd` docker Image `docker build -t python-imdb .`
+- Run docker Container `docker run python-imdb`
 
 ### Credit
 
