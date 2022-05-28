@@ -27,7 +27,7 @@ def my_range(start, end):
         yield current
         current += 1
 
-# 
+# Custom print function using the iterator features
 def my_iterable_print(an_iterable):
     an_iterator = iter(an_iterable)
     while True:
