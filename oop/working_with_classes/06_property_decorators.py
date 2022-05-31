@@ -1,3 +1,8 @@
+# Inspired by the Following YouTube Tutorial
+# ------------------------------------------
+# Object Oriented Programming in Python
+# https://youtube.com/playlist?list=PL-osiE80TeTsqhIuOqKhwlXsIBIdSeYtc
+
 class Employee:
     def __init__(self, first, last):
         self.first = first

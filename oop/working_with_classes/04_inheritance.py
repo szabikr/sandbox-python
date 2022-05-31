@@ -1,3 +1,8 @@
+# Inspired by the Following YouTube Tutorial
+# ------------------------------------------
+# Object Oriented Programming in Python
+# https://youtube.com/playlist?list=PL-osiE80TeTsqhIuOqKhwlXsIBIdSeYtc
+
 class Employee:
     raise_amt = 1.04
 
