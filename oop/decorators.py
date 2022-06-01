@@ -3,7 +3,8 @@
 # by Corey Schafer
 # https://youtu.be/FsAPt_9Bf3U
 
-# When we use a class as decorator we need to pass the original function through the constructor (dunder __init__ method)
+# When we use a class as decorator
+# We need to pass the original function through the constructor (dunder __init__ method)
 # And we need to implement the duncer __call__ method which is essentially going to be decorator function
 # __call__ method always needs to pass the args and kwargs to the original function
 # and return the execution of the original function
@@ -26,7 +27,7 @@ def decorator_function(original_function):
 # wrpas is needed in order to preserve the identity of the original function when returning from the wrapper
 from functools import wraps
 
-# Logger decorator that creates a new file for each function that its being called and have been decorated by itself
+# Logger decorator that creates a new file for each function that its being called and have been decorated by it
 # And logs some info into that file
 # then calls the original function
 def my_logger(orig_func):
